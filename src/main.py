@@ -1,3 +1,5 @@
 from app import BoxApp
 
-BoxApp()
+
+if __name__ == "__main__":
+    BoxApp()
