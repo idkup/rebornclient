@@ -1,6 +1,15 @@
-from pathlib import Path
 import tkinter.ttk as ttk
+import os
+from pathlib import Path
 from PIL import ImageTk
+import sys
+
+
+def get_path(filename):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, filename)
+    else:
+        return filename
 
 
 class InteractableIcon(ttk.Button):
@@ -11,7 +20,8 @@ class InteractableIcon(ttk.Button):
         self.data = data
         self.display = display
         self.export = export
-        self.icon = ImageTk.PhotoImage(file=f"graphics/{self.data['species']}.png")
+        iconpath = get_path(f"graphics/{self.data['species']}.png")
+        self.icon = ImageTk.PhotoImage(file=iconpath)
         super().__init__(parent, image=self.icon, command=self.on_click)
 
     def display_info(self):
@@ -26,8 +36,9 @@ class InteractableIcon(ttk.Button):
             return
         fn = Path(self.app.to_game_path)
         fn.touch(exist_ok=True)
+        fp = get_path(self.app.to_game_path)
         export_str = f"{d['name']}|{d['species']}|{d['lvl']}|{d['ability']}|{d['nature']}|{d['moves']}|{d['ivs']}|{d['evs']}|{d['shiny']}|{d['ot']}|{d['gender']}|{d['caughtloc']}|{d['form']}\n"
-        with open(fn, "a") as f:
+        with open(fp, "a") as f:
             f.write(export_str)
             f.close()
         self.app.refresh()
