@@ -20,7 +20,7 @@ class InteractableIcon(ttk.Button):
         self.data = data
         self.display = display
         self.export = export
-        iconpath = get_path(f"graphics/{self.data['species']}.png")
+        iconpath = get_path(f"graphics_client/{self.data['species']}.png")
         self.icon = ImageTk.PhotoImage(file=iconpath)
         super().__init__(parent, image=self.icon, command=self.on_click)
 
@@ -34,11 +34,12 @@ class InteractableIcon(ttk.Button):
             self.app.refresh()
             self.app.log.config(text="Something went wrong.")
             return
-        fn = Path(self.app.to_game_path)
-        fn.touch(exist_ok=True)
         fp = get_path(self.app.to_game_path)
+        fn = Path(fp)
+        fn.touch(exist_ok=True)
+
         export_str = f"{d['name']}|{d['species']}|{d['lvl']}|{d['ability']}|{d['nature']}|{d['moves']}|{d['ivs']}|{d['evs']}|{d['shiny']}|{d['ot']}|{d['gender']}|{d['caughtloc']}|{d['form']}\n"
-        with open(fp, "a") as f:
+        with open(fn, "a") as f:
             f.write(export_str)
             f.close()
         self.app.refresh()

@@ -23,13 +23,13 @@ class WebServerAccess:
                    "ot": keys[10], "gender": int(keys[11]), "caughtloc": keys[12], "form": int(keys[13])}
             fields[f"{keys[9]}{i}"] = mon
             i += 1
-        return requests.post(self.import_link, json=data, headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/json"}).status_code
+        return requests.post(self.import_link, json=data, headers={"User-Agent": "reborn-client", "Content-Type": "application/json"}).status_code
 
     def export_call(self, targetid):
         data = {"auth": self.password,
                 "targetid": targetid}
         response = requests.post(self.export_link, json=data,
-                                 headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/json"})
+                                 headers={"User-Agent": "reborn-client", "Content-Type": "application/json"})
         return response.status_code
 
     def read_call(self):
